@@ -40,11 +40,7 @@ fn count_winning(game: &str) -> usize {
         .1
         .trim()
         .split(" | ")
-        .map(|v| {
-            v.split(' ')
-                .flat_map(|num_str| num_str.parse().ok())
-                .collect::<HashSet<u32>>()
-        })
+        .map(|v| v.split(' ').flat_map(str::parse).collect::<HashSet<u32>>())
         .collect::<Vec<_>>()
         .try_into()
         .map(|[a, b]: [_; 2]| a.intersection(&b).count())
