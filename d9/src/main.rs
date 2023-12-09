@@ -21,15 +21,7 @@ fn predict_next(values: &[isize]) -> isize {
         .all(|v| *v == 0)
         .then_some(0)
         .unwrap_or_else(|| {
-            let mut it = values.iter();
-            let first = it.next().unwrap();
-            let next_value: Vec<_> = it
-                .scan(first, |current, next| {
-                    let ret = Some(next - *current);
-                    *current = next;
-                    ret
-                })
-                .collect();
-            predict_next(&next_value) + values.last().unwrap()
+            predict_next(&values.windows(2).map(|v| v[1] - v[0]).collect::<Vec<_>>())
+                + values.last().unwrap()
         })
 }
